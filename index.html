@@ -1,1 +1,310 @@
-test
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>الكتاب المقدس العربي</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a84c;--gold2:#e8c97a;--gold3:#8a6a1f;--bg:#0d0a06;--bg2:#131008;--bg3:#1a1408;--bg4:#221a0a;--bg5:#2a200c;--t1:#f0e6c8;--t2:#9e8a60;--t3:#ede0be;--br:#2e2410;--br2:#3a2e10;--nav-h:62px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Amiri",serif;background:var(--bg);color:var(--t1);display:flex;flex-direction:column}
+.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--br2);display:flex;z-index:1000;box-shadow:0 -4px 20px rgba(0,0,0,.5)}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:all .2s;border-top:2px solid transparent;padding-bottom:4px}
+.ni.active{border-top-color:var(--gold)}
+.ni .ico{font-size:1.3rem}
+.ni .lbl{font-family:"Amiri",serif;font-size:.7rem;color:var(--t2)}
+.ni.active .lbl{color:var(--gold)}
+.page{position:fixed;top:0;left:0;right:0;bottom:var(--nav-h);display:none;flex-direction:column;overflow:hidden}
+.page.active{display:flex}
+#pgHome{overflow-y:auto;background:var(--bg)}
+.hero{text-align:center;padding:44px 20px 28px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 70%)}
+.hero-cross{font-size:2.5rem;color:var(--gold);display:block;margin-bottom:12px;animation:glow 4s ease-in-out infinite}
+@keyframes glow{0%,100%{text-shadow:0 0 20px rgba(201,168,76,.3);opacity:.8}50%{text-shadow:0 0 50px rgba(201,168,76,.7);opacity:1}}
+.hero h1{font-family:"Scheherazade New",serif;font-size:2rem;color:var(--gold2);line-height:1.3}
+.hero p{color:var(--t2);font-size:.95rem;margin-top:7px}
+.divider{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gold3);font-size:.85rem;margin:16px 0;letter-spacing:.2em}
+.divider::before,.divider::after{content:"";width:50px;height:1px;background:var(--gold3)}
+.dv-card{margin:0 16px 22px;background:var(--bg3);border:1px solid var(--br2);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
+.dv-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to left,transparent,var(--gold),transparent)}
+.dv-lbl{font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px}
+.dv-text{font-family:"Amiri",serif;font-size:1.1rem;color:var(--t3);line-height:2;font-style:italic}
+.dv-ref{font-size:.78rem;color:var(--gold2);margin-top:8px;text-align:left}
+.stats{display:flex;gap:8px;padding:0 16px 18px}
+.stat{flex:1;background:var(--bg3);border:1px solid var(--br);border-radius:10px;padding:12px;text-align:center}
+.stat-n{font-family:"Scheherazade New",serif;font-size:1.4rem;color:var(--gold);display:block}
+.stat-l{font-size:.68rem;color:var(--t2);margin-top:2px}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 24px}
+.hcard{background:var(--bg3);border:1px solid var(--br2);border-radius:14px;padding:20px 14px;text-align:center;cursor:pointer;transition:all .2s}
+.hcard:active{background:var(--bg4);border-color:var(--gold3);transform:scale(.98)}
+.hcard-ico{font-size:1.8rem;display:block;margin-bottom:8px}
+.hcard-t{font-family:"Scheherazade New",serif;font-size:1rem;color:var(--gold2);margin-bottom:4px}
+.hcard-s{font-size:.76rem;color:var(--t2);line-height:1.4}
+#pgBible{background:var(--bg)}
+.bible-hdr{background:var(--bg2);border-bottom:1px solid var(--br2);flex-shrink:0}
+.bible-title{display:flex;align-items:center;justify-content:center;padding:9px 14px 6px;border-bottom:1px solid var(--br)}
+.bible-logo{font-family:"Scheherazade New",serif;font-size:1.2rem;color:var(--gold)}
+.tools{display:flex;align-items:center;gap:5px;padding:7px 10px}
+select{background:var(--bg3);border:1px solid var(--br2);color:var(--t1);padding:7px 8px;border-radius:8px;font-family:"Amiri",serif;font-size:.92rem;cursor:pointer;outline:none;flex:1;min-width:0;transition:border-color .2s}
+select:focus{border-color:var(--gold)}
+select option{background:var(--bg3);color:var(--t1)}
+.arr{background:var(--bg3);border:1px solid var(--br2);color:var(--t2);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.arr:active{border-color:var(--gold);color:var(--gold)}
+.arr:disabled{opacity:.3;pointer-events:none}
+.fbtns{display:flex;gap:3px;flex-shrink:0}
+.fbtn{background:var(--bg3);border:1px solid var(--br2);color:var(--t2);width:28px;height:28px;border-radius:6px;cursor:pointer;font-family:"Amiri",serif;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.fbtn:active{border-color:var(--gold3);color:var(--gold)}
+.sb-tog{background:var(--bg3);border:1px solid var(--br2);color:var(--t2);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.bible-body{display:flex;flex:1;overflow:hidden}
+.sb{width:240px;min-width:240px;background:var(--bg2);border-left:1px solid var(--br2);display:flex;flex-direction:column;overflow:hidden;transition:transform .3s}
+.sb-tabs{display:flex;border-bottom:1px solid var(--br2);flex-shrink:0}
+.sbt{flex:1;padding:8px 2px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--t2);cursor:pointer;font-family:"Amiri",serif;font-size:.78rem;transition:all .15s}
+.sbt.active{color:var(--gold);border-bottom-color:var(--gold)}
+.bl{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--br) transparent}
+.tl{padding:5px 12px;font-size:.63rem;color:var(--gold3);text-transform:uppercase;letter-spacing:.15em;background:rgba(201,168,76,.04);border-top:1px solid var(--br);border-bottom:1px solid var(--br);margin-top:2px}
+.brow{padding:8px 13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-right:3px solid transparent;transition:all .12s}
+.brow:active{background:var(--bg4)}
+.brow.active{background:rgba(201,168,76,.1);border-right-color:var(--gold)}
+.brow.active .bn{color:var(--gold2);font-weight:700}
+.bn{font-size:.9rem}
+.bch{font-size:.65rem;color:var(--t2);background:var(--bg3);padding:1px 5px;border-radius:8px}
+.chp{flex-shrink:0;border-top:1px solid var(--br2);background:rgba(0,0,0,.2);max-height:180px;overflow-y:auto}
+.cht{padding:6px 12px 4px;font-size:.63rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
+.chg{display:flex;flex-wrap:wrap;gap:4px;padding:0 8px 8px}
+.cc{width:30px;height:30px;border:1px solid var(--br);background:var(--bg3);color:var(--t2);border-radius:6px;cursor:pointer;font-family:"Amiri",serif;font-size:.76rem;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.cc:active{border-color:var(--gold3);color:var(--gold)}
+.cc.active{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:700}
+.reader{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--br) transparent}
+.ri{max-width:680px;margin:0 auto;padding:24px 20px 50px}
+.ct{text-align:center;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--br2)}
+.ct h2{font-family:"Scheherazade New",serif;font-size:1.6rem;color:var(--gold2)}
+.ct .sub{font-size:.82rem;color:var(--t2);margin-top:4px}
+.vr{display:flex;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s;animation:fu .2s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.vr:active{background:rgba(201,168,76,.06)}
+.vr.hl{background:rgba(201,168,76,.12);border-right:3px solid var(--gold)}
+.vn{font-size:.65rem;color:var(--gold);font-weight:700;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.1);border-radius:50%;flex-shrink:0;margin-top:5px}
+.vt{font-family:"Amiri",serif;font-size:1.15rem;color:var(--t3);line-height:2;flex:1}
+.rnav{display:flex;justify-content:space-between;align-items:center;padding:16px 0 0;border-top:1px solid var(--br2);margin-top:10px}
+.rnb{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--br2);color:var(--t2);padding:7px 14px;border-radius:8px;cursor:pointer;font-family:"Amiri",serif;font-size:.88rem;transition:all .15s}
+.rnb:active{border-color:var(--gold3);color:var(--gold)}
+.rnb:disabled{opacity:.3;pointer-events:none}
+.bwelcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:24px;gap:10px}
+.bwelcome h2{font-family:"Scheherazade New",serif;font-size:1.6rem;color:var(--gold2)}
+.bwelcome p{color:var(--t2);font-size:.95rem;line-height:1.7}
+.sbov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50}
+@media(max-width:600px){.sb{position:fixed;top:0;bottom:var(--nav-h);right:0;z-index:100;transform:translateX(100%)}.sb.open{transform:translateX(0)}.sbov.open{display:block}.sb-tog{display:flex}}
+@media(min-width:601px){.sb-tog{display:none}}
+#pgSearch{overflow-y:auto;background:var(--bg)}
+.sh-hero{padding:26px 16px 18px;text-align:center;border-bottom:1px solid var(--br2);background:var(--bg2);flex-shrink:0}
+.sh-hero h2{font-family:"Scheherazade New",serif;font-size:1.5rem;color:var(--gold2);margin-bottom:10px}
+.gs{width:100%;background:var(--bg3);border:1px solid var(--br2);color:var(--t1);padding:11px 14px;border-radius:10px;font-family:"Amiri",serif;font-size:1rem;outline:none;transition:border-color .2s}
+.gs:focus{border-color:var(--gold)}
+.gs::placeholder{color:var(--t2);opacity:.6}
+.sr-wrap{padding:16px;max-width:760px;margin:0 auto}
+.sr-cnt{font-size:.8rem;color:var(--t2);margin-bottom:12px}
+.sr{padding:11px 13px;border:1px solid var(--br);border-radius:9px;margin-bottom:7px;cursor:pointer;transition:all .15s;background:var(--bg3)}
+.sr:active{border-color:var(--gold3);background:var(--bg4)}
+.sr-ref{font-size:.72rem;color:var(--gold);margin-bottom:4px}
+.sr-t{font-size:.98rem;color:var(--t3);line-height:1.75}
+.sr-t mark{background:rgba(201,168,76,.3);color:var(--gold2);border-radius:3px;padding:0 2px}
+.sr-empty{text-align:center;color:var(--t2);padding:36px 16px;font-size:.95rem}
+#pgTheo{overflow-y:auto;background:var(--bg)}
+.th-hero{text-align:center;padding:30px 16px 20px;border-bottom:1px solid var(--br2);background:var(--bg2);flex-shrink:0;position:relative;overflow:hidden}
+.th-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(201,168,76,.08) 0%,transparent 70%);pointer-events:none}
+.th-cross{font-size:1.6rem;color:var(--gold);display:block;margin-bottom:6px;animation:glow 4s ease-in-out infinite}
+.th-title{font-family:"Scheherazade New",serif;font-size:1.5rem;color:var(--gold2)}
+.th-sub{color:var(--t2);font-size:.85rem;margin-top:5px}
+.th-body{padding:16px 14px 28px;max-width:760px;margin:0 auto;width:100%}
+.ask-card{background:var(--bg3);border:1px solid var(--br2);border-radius:14px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}
+.ask-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to left,transparent,var(--gold),transparent)}
+.ask-lbl{font-family:"Scheherazade New",serif;font-size:1.05rem;color:var(--gold2);margin-bottom:10px}
+.qi{width:100%;background:var(--bg4);border:1px solid var(--br2);border-radius:10px;color:var(--t1);font-family:"Noto Naskh Arabic",serif;font-size:1rem;padding:11px 13px;resize:vertical;min-height:76px;outline:none;transition:border-color .2s;line-height:1.8}
+.qi:focus{border-color:var(--gold3)}
+.qi::placeholder{color:var(--t2);opacity:.6}
+.ask-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.ask-btn{background:linear-gradient(135deg,var(--gold3),var(--gold));border:none;color:var(--bg);font-family:"Scheherazade New",serif;font-size:.98rem;font-weight:700;padding:9px 22px;border-radius:10px;cursor:pointer;transition:all .2s}
+.ask-btn:active{transform:scale(.97)}
+.ask-btn:disabled{opacity:.5;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{background:var(--bg4);border:1px solid var(--br2);color:var(--t2);padding:5px 11px;border-radius:16px;font-family:"Amiri",serif;font-size:.8rem;cursor:pointer;transition:all .15s}
+.chip:active{border-color:var(--gold3);color:var(--gold2)}
+.ac{background:var(--bg3);border:1px solid var(--br2);border-radius:14px;overflow:hidden;margin-bottom:14px;animation:si .3s ease}
+@keyframes si{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ac-hd{background:var(--bg4);padding:13px 16px;border-bottom:1px solid var(--br2);display:flex;align-items:flex-start;gap:10px}
+.ac-ico{width:32px;height:32px;background:rgba(201,168,76,.12);border:1px solid var(--gold3);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;color:var(--gold)}
+.ac-q{font-family:"Scheherazade New",serif;font-size:1.05rem;color:var(--gold2);line-height:1.5}
+.ac-body{padding:18px}
+.loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px;color:var(--t2)}
+.dots{display:flex;gap:6px}
+.dots span{width:7px;height:7px;background:var(--gold3);border-radius:50%;animation:dot 1.4s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+.at{font-family:"Noto Naskh Arabic",serif;font-size:1.02rem;color:var(--t3);line-height:2;margin-bottom:18px}
+.at p{margin-bottom:8px}.at p:last-child{margin-bottom:0}
+.at strong{color:var(--gold2)}
+.vs-sec{border-top:1px solid var(--br2);padding-top:14px}
+.vs-title{font-family:"Scheherazade New",serif;font-size:.98rem;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.vs-title::after{content:"";flex:1;height:1px;background:linear-gradient(to left,transparent,var(--br2))}
+.vc{background:var(--bg4);border:1px solid var(--br2);border-right:3px solid var(--gold3);border-radius:9px;padding:11px 13px;margin-bottom:7px}
+.vr2{font-size:.72rem;color:var(--gold);font-weight:700;margin-bottom:4px}
+.vt2{font-family:"Amiri",serif;font-size:1.02rem;color:var(--t3);line-height:1.9;font-style:italic}
+.th-note{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:13px 15px;margin-top:14px}
+.th-note-t{font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.th-note-b{font-family:"Noto Naskh Arabic",serif;font-size:.96rem;color:var(--t2);line-height:1.9}
+.err{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:10px;padding:13px;color:#e74c3c;font-size:.92rem;text-align:center}
+.hist-t{font-family:"Scheherazade New",serif;font-size:1rem;color:var(--t2);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.hist-t::after{content:"";flex:1;height:1px;background:var(--br2)}
+.hi{background:var(--bg3);border:1px solid var(--br);border-radius:9px;padding:10px 13px;margin-bottom:6px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px}
+.hi:active{border-color:var(--gold3);background:var(--bg4)}
+.hi-i{color:var(--gold3);font-size:.8rem;flex-shrink:0}
+.hi-q{font-size:.92rem;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi-d{background:none;border:none;color:var(--br2);cursor:pointer;font-size:.82rem;padding:2px 5px;border-radius:4px;transition:all .15s}
+.hi-d:active{color:#e74c3c}
+.eh{text-align:center;color:var(--t2);font-size:.88rem;padding:14px;opacity:.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--br2);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="page active" id="pgHome">
+  <div class="hero">
+    <span class="hero-cross">✝</span>
+    <h1>الكتاب المقدس العربي</h1>
+    <p>اقرأ الكتاب المقدس واستكشف اللاهوت المسيحي</p>
+    <div class="divider">✦ ✦ ✦</div>
+  </div>
+  <div class="dv-card">
+    <div class="dv-lbl">✦ آية اليوم</div>
+    <div class="dv-text" id="dvText">جارٍ التحميل...</div>
+    <div class="dv-ref" id="dvRef"></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-n">66</span><div class="stat-l">سفراً</div></div>
+    <div class="stat"><span class="stat-n">1189</span><div class="stat-l">إصحاحاً</div></div>
+    <div class="stat"><span class="stat-n">31102</span><div class="stat-l">آية</div></div>
+  </div>
+  <div class="home-grid">
+    <div class="hcard" onclick="go('bible')"><span class="hcard-ico">📖</span><div class="hcard-t">الكتاب المقدس</div><div class="hcard-s">66 سفراً كاملاً</div></div>
+    <div class="hcard" onclick="go('theo')"><span class="hcard-ico">✝</span><div class="hcard-t">أسئلة لاهوتية</div><div class="hcard-s">إجابات بالذكاء الاصطناعي</div></div>
+    <div class="hcard" onclick="go('search')"><span class="hcard-ico">🔍</span><div class="hcard-t">بحث في الكتاب</div><div class="hcard-s">31,102 آية</div></div>
+    <div class="hcard" onclick="randVerse()"><span class="hcard-ico">🎲</span><div class="hcard-t">آية عشوائية</div><div class="hcard-s">اكتشف آيات جديدة</div></div>
+  </div>
+</div>
+<div class="page" id="pgBible">
+  <div class="bible-hdr">
+    <div class="bible-title"><div class="bible-logo">📖 الكتاب المقدس</div></div>
+    <div class="tools">
+      <button class="sb-tog" onclick="togSb()">☰</button>
+      <button class="arr" id="prevBtn" onclick="stepCh(-1)">▶</button>
+      <select id="bookSel" onchange="onBook()"><option value="">— اختر سفراً —</option></select>
+      <select id="chSel" onchange="onCh()" style="display:none"></select>
+      <button class="arr" id="nextBtn" onclick="stepCh(1)">◀</button>
+      <div class="fbtns">
+        <button class="fbtn" onclick="chFont(-1)">أ-</button>
+        <button class="fbtn" onclick="chFont(1)">أ+</button>
+      </div>
+    </div>
+  </div>
+  <div class="bible-body">
+    <div class="sb" id="sb">
+      <div class="sb-tabs">
+        <button class="sbt active" onclick="setTab('all')">الكل</button>
+        <button class="sbt" onclick="setTab('ot')">ق.قديم</button>
+        <button class="sbt" onclick="setTab('nt')">ق.جديد</button>
+      </div>
+      <div class="bl" id="bl"></div>
+      <div class="chp" id="chp" style="display:none">
+        <div class="cht">الإصحاحات</div>
+        <div class="chg" id="chg"></div>
+      </div>
+    </div>
+    <div class="sbov" id="sbov" onclick="togSb()"></div>
+    <div class="reader" id="reader">
+      <div class="bwelcome"><h2>📖 الكتاب المقدس</h2><p>اختر سفراً للبدء في القراءة</p></div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pgSearch">
+  <div class="sh-hero">
+    <h2>🔍 البحث في الكتاب المقدس</h2>
+    <input class="gs" id="gs" type="text" placeholder="ابحث عن كلمة أو آية..." oninput="doSearch(this.value)">
+  </div>
+  <div class="sr-wrap" id="srWrap"><div class="sr-empty">اكتب كلمة للبحث في كامل الكتاب المقدس</div></div>
+</div>
+<div class="page" id="pgTheo">
+  <div class="th-hero">
+    <span class="th-cross">✝</span>
+    <div class="th-title">اللاهوت المسيحي</div>
+    <div class="th-sub">أسئلة وأجوبة مع الدليل من الكتاب المقدس</div>
+  </div>
+  <div class="th-body">
+    <div class="ask-card">
+      <div class="ask-lbl">اطرح سؤالك اللاهوتي</div>
+      <textarea class="qi" id="qi" placeholder="مثال: ما هو الثالوث القدوس؟"></textarea>
+      <div class="ask-row">
+        <button class="ask-btn" id="askBtn" onclick="askQ()">✦ ابحث عن الجواب</button>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="ansSec" style="display:none">
+      <div class="ac" id="ansCard">
+        <div class="ac-hd"><div class="ac-ico">✝</div><div class="ac-q" id="ansQ"></div></div>
+        <div class="ac-body" id="ansBody"></div>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <div class="hist-t">📜 الأسئلة السابقة</div>
+      <div id="histList"></div>
+    </div>
+  </div>
+</div>
+<nav class="bnav">
+  <div class="ni active" id="ni-home" onclick="go('home')"><span class="ico">🏠</span><span class="lbl">الرئيسية</span></div>
+  <div class="ni" id="ni-bible" onclick="go('bible')"><span class="ico">📖</span><span class="lbl">الكتاب</span></div>
+  <div class="ni" id="ni-search" onclick="go('search')"><span class="ico">🔍</span><span class="lbl">بحث</span></div>
+  <div class="ni" id="ni-theo" onclick="go('theo')"><span class="ico">✝</span><span class="lbl">لاهوت</span></div>
+</nav>
+<script src="bible.js"></script>
+<script>
+var ALL=[...OT,...NT].filter(function(a){return B[a];});
+function go(page){document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});document.querySelectorAll(".ni").forEach(function(n){n.classList.remove("active");});document.getElementById("pg"+page.charAt(0).toUpperCase()+page.slice(1)).classList.add("active");document.getElementById("ni-"+page).classList.add("active");}
+function showDaily(){var ab=ALL[Math.floor(Math.random()*ALL.length)];var chs=Object.keys(B[ab]);var ch=chs[Math.floor(Math.random()*chs.length)];var vs=B[ab][ch];var v=Math.floor(Math.random()*vs.length);document.getElementById("dvText").textContent=vs[v];document.getElementById("dvRef").textContent=(N[ab]||ab)+" "+ch+":"+(v+1);}
+function randVerse(){var ab=ALL[Math.floor(Math.random()*ALL.length)];var chs=Object.keys(B[ab]);var ch=chs[Math.floor(Math.random()*chs.length)];var vs=B[ab][ch];var v=Math.floor(Math.random()*vs.length);alert((N[ab]||ab)+" "+ch+":"+(v+1)+"
+
+"+vs[v]);}
+var curAb=null,curCh=1,fs=1.15;
+function getChs(ab){return Object.keys(B[ab]).map(Number).sort(function(a,b){return a-b;});}
+function initBookSel(){var s=document.getElementById("bookSel");function addGrp(label,list){var g=document.createElement("optgroup");g.label=label;list.filter(function(a){return B[a];}).forEach(function(a){var o=document.createElement("option");o.value=a;o.textContent=N[a]||a;g.appendChild(o);});s.appendChild(g);}addGrp("العهد القديم",OT);addGrp("العهد الجديد",NT);}
+function updateChSel(){var s=document.getElementById("chSel");if(!curAb){s.style.display="none";return;}s.style.display="";s.innerHTML="";getChs(curAb).forEach(function(c){var o=document.createElement("option");o.value=c;o.textContent="الإصحاح "+c;if(c===curCh)o.selected=true;s.appendChild(o);});}
+function onBook(){var ab=document.getElementById("bookSel").value;if(!ab)return;openBook(ab,1);}
+function onCh(){var ch=parseInt(document.getElementById("chSel").value);if(curAb&&ch)goTo(curAb,ch);}
+function openBook(ab,ch){curAb=ab;curCh=ch||1;document.getElementById("bookSel").value=ab;updateChSel();syncSb();renderBible();if(window.innerWidth<=600)closeSb();}
+function goTo(ab,ch){curAb=ab;curCh=ch;document.getElementById("bookSel").value=ab;document.getElementById("chSel").value=ch;syncCc();document.getElementById("reader").scrollTop=0;renderBible();}
+function stepCh(d){if(!curAb)return;var chs=getChs(curAb),idx=chs.indexOf(curCh);if(d===1){if(idx<chs.length-1){goTo(curAb,chs[idx+1]);return;}var bi=ALL.indexOf(curAb);if(bi<ALL.length-1)openBook(ALL[bi+1],1);}else{if(idx>0){goTo(curAb,chs[idx-1]);return;}var bi2=ALL.indexOf(curAb);if(bi2>0){var p=ALL[bi2-1];openBook(p,Math.max.apply(null,getChs(p)));}}}
+function renderBible(){if(!curAb||!B[curAb])return;var vs=B[curAb][String(curCh)]||[];var name=N[curAb]||curAb;var total=getChs(curAb).length;var html=vs.map(function(t,i){return'<div class="vr" id="bv'+(i+1)+'" onclick="this.classList.toggle(\'hl\')" style="animation-delay:'+(i*.015)+'s"><div class="vn">'+(i+1)+'</div><div class="vt" style="font-size:'+fs+'rem">'+t+'</div></div>';}).join("");document.getElementById("reader").innerHTML='<div class="ri"><div class="ct"><h2>'+name+' — الإصحاح '+curCh+'</h2><div class="sub">'+vs.length+' آية · '+curCh+"/"+total+'</div></div>'+html+'<div class="rnav"><button class="rnb" onclick="stepCh(-1)">▶ السابق</button><span style="color:var(--t2);font-size:.82rem">'+curCh+"/"+total+'</span><button class="rnb" onclick="stepCh(1)">التالي ◀</button></div></div>';document.getElementById("reader").scrollTop=0;document.getElementById("prevBtn").disabled=curCh===getChs(curAb)[0]&&ALL.indexOf(curAb)===0;document.getElementById("nextBtn").disabled=curCh===getChs(curAb)[getChs(curAb).length-1]&&curAb===ALL[ALL.length-1];}
+function buildSb(tab){var list=document.getElementById("bl");list.innerHTML="";var showOT=tab==="all"||tab==="ot",showNT=tab==="all"||tab==="nt";function addLbl(txt){var d=document.createElement("div");d.className="tl";d.textContent=txt;list.appendChild(d);}function addBrow(ab){var el=document.createElement("div");el.className="brow";el.dataset.ab=ab;el.innerHTML='<span class="bn">'+(N[ab]||ab)+'</span><span class="bch">'+getChs(ab).length+"</span>";el.onclick=function(){openBook(ab,1);};list.appendChild(el);}if(showOT){addLbl("العهد القديم");OT.filter(function(a){return B[a];}).forEach(addBrow);}if(showNT){addLbl("العهد الجديد");NT.filter(function(a){return B[a];}).forEach(addBrow);}if(curAb){var row=list.querySelector('[data-ab="'+curAb+'"]');if(row){row.classList.add("active");row.scrollIntoView({block:"nearest"});}buildCc(curAb);}}
+function syncSb(){document.querySelectorAll(".brow").forEach(function(el){el.classList.toggle("active",el.dataset.ab===curAb);});var row=document.querySelector('.brow[data-ab="'+curAb+'"]');if(row)row.scrollIntoView({block:"nearest"});buildCc(curAb);}
+function buildCc(ab){var panel=document.getElementById("chp"),grid=document.getElementById("chg");if(!ab||!B[ab]){panel.style.display="none";return;}panel.style.display="";grid.innerHTML="";getChs(ab).forEach(function(c){var btn=document.createElement("div");btn.className="cc"+(c===curCh?" active":"");btn.dataset.ch=c;btn.textContent=c;btn.onclick=function(){goTo(ab,c);};grid.appendChild(btn);});}
+function syncCc(){document.querySelectorAll(".cc").forEach(function(el){el.classList.toggle("active",parseInt(el.dataset.ch)===curCh);});}
+function setTab(t){document.querySelectorAll(".sbt").forEach(function(b,i){b.classList.toggle("active",["all","ot","nt"][i]===t);});buildSb(t);}
+function chFont(d){fs=Math.min(2,Math.max(.85,fs+d*.1));document.querySelectorAll(".vt").forEach(function(el){el.style.fontSize=fs+"rem"});}
+function togSb(){var sb=document.getElementById("sb"),ov=document.getElementById("sbov");var op=sb.classList.toggle("open");ov.classList.toggle("open",op);}
+function closeSb(){document.getElementById("sb").classList.remove("open");document.getElementById("sbov").classList.remove("open");}
+var gTimer;
+function doSearch(q){clearTimeout(gTimer);if(!q.trim()){document.getElementById("srWrap").innerHTML='<div class="sr-empty">اكتب كلمة للبحث</div>';return;}gTimer=setTimeout(function(){runSearch(q.trim());},350);}
+function runSearch(q){var res=[];for(var ai=0;ai<ALL.length;ai++){var ab=ALL[ai];var chs=Object.keys(B[ab]);for(var ci=0;ci<chs.length;ci++){var ch=chs[ci],vs=B[ab][ch];for(var vi=0;vi<vs.length;vi++){if(vs[vi].indexOf(q)!==-1){res.push({ab:ab,ch:Number(ch),v:vi+1,text:vs[vi]});if(res.length>=80)break;}}if(res.length>=80)break;}if(res.length>=80)break;}var items=res.map(function(r){var hl=r.text.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"g"),"<mark>"+q+"</mark>");return'<div class="sr" onclick="go(\'bible\');setTimeout(function(){openBook(\''+ r.ab +'\','+ r.ch +');setTimeout(function(){var v=document.getElementById(\'bv'+ r.v +'\');if(v){v.scrollIntoView({behavior:\'smooth\'});v.classList.add(\'hl\');}},400);},100)"><div class="sr-ref">'+(N[r.ab]||r.ab)+" "+r.ch+":"+r.v+'</div><div class="sr-t">'+hl+"</div></div>";}).join("");document.getElementById("srWrap").innerHTML='<div class="sr-cnt">'+res.length+' نتيجة'+(res.length===80?' (أول 80)':'')+"</div>"+(items||'<div class="sr-empty">لا توجد نتائج</div>');}
+var SUGG=["ما هو الثالوث القدوس؟","كيف يكون يسوع إلهاً وإنساناً؟","ما هو معنى الخلاص؟","لماذا مات يسوع على الصليب؟","ما هي القيامة وأهميتها؟","ما الفرق بين النعمة والناموس؟","ما هو الروح القدس؟","ما طبيعة المسيح؟","لماذا يسمح الله بالشر؟"];
+var thHist=JSON.parse(localStorage.getItem("th_h")||"[]");
+function initChips(){var w=document.getElementById("chips");var picks=SUGG.slice().sort(function(){return Math.random()-.5;}).slice(0,5);picks.forEach(function(q){var c=document.createElement("button");c.className="chip";c.textContent=q;c.onclick=function(){document.getElementById("qi").value=q;askQ();};w.appendChild(c);});}
+function saveHist(q,ans){thHist.unshift({q:q,ans:ans,time:Date.now()});if(thHist.length>20)thHist=thHist.slice(0,20);localStorage.setItem("th_h",JSON.stringify(thHist));renderHist();}
+function delHist(i){thHist.splice(i,1);localStorage.setItem("th_h",JSON.stringify(thHist));renderHist();}
+function showSaved(i){var item=thHist[i];document.getElementById("qi").value=item.q;displayAns(item.q,item.ans);}
+function renderHist(){var list=document.getElementById("histList");if(!thHist.length){list.innerHTML='<div class="eh">لا توجد أسئلة سابقة</div>';return;}list.innerHTML=thHist.map(function(item,i){return'<div class="hi" onclick="showSaved('+i+')"><span class="hi-i">✦</span><span class="hi-q">'+item.q+'</span><button class="hi-d" onclick="event.stopPropagation();delHist('+i+')">✕</button></div>';}).join("");}
+function fmtText(t){if(!t)return"";return"<p>"+t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(.+?)\*/g,"<em>$1</em>").replace(/\n{2,}/g,"</p><p>").replace(/\n/g,"<br>")+"</p>";}
+async function askQ(){var q=document.getElementById("qi").value.trim();if(!q)return;document.getElementById("ansSec").style.display="block";document.getElementById("ansQ").textContent=q;document.getElementById("ansBody").innerHTML='<div class="loading"><div class="dots"><span></span><span></span><span></span></div><div>جارٍ البحث في الكتاب المقدس...</div></div>';document.getElementById("askBtn").disabled=true;document.getElementById("ansCard").scrollIntoView({behavior:"smooth",block:"start"});try{var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:"أنت عالم لاهوت مسيحي متخصص. أجب فقط بـ JSON خالص بدون أي نص خارجه ولا markdown:\n{\"answer\":\"الإجابة الكاملة 8-12 جملة بدون نجوم أو تنسيق\",\"verses\":[{\"ref\":\"يوحنا 3:16\",\"text\":\"نص الآية\"}],\"note\":\"مقارنة المذاهب كاثوليك أرثوذكس بروتستانت\"}\nالقواعد: عربية فصحى، لا markdown، 4-6 آيات، إجابة كاملة، قارن المذاهب دائماً.",messages:[{role:"user",content:q}]})});var data=await res.json();var raw=data.content.map(function(c){return c.text||"";}).join("");var parsed;try{var clean=raw.replace(/```json\s*/gi,"").replace(/```\s*/g,"").trim();var m=clean.match(/\{[\s\S]*\}/);if(m)clean=m[0];parsed=JSON.parse(clean);}catch(e){parsed={answer:raw,verses:[],note:""};}parsed.answer=fmtText(parsed.answer||"");parsed.note=fmtText(parsed.note||"");if(!Array.isArray(parsed.verses))parsed.verses=[];saveHist(q,parsed);displayAns(q,parsed);}catch(e){document.getElementById("ansBody").innerHTML='<div class="err">⚠️ تحقق من اتصالك بالإنترنت وحاول مجدداً.</div>';}finally{document.getElementById("askBtn").disabled=false;}}
+function displayAns(q,ans){document.getElementById("ansSec").style.display="block";document.getElementById("ansQ").textContent=q;var vHtml=ans.verses&&ans.verses.length?'<div class="vs-sec"><div class="vs-title">📖 الآيات الداعمة</div>'+ans.verses.map(function(v){return'<div class="vc"><div class="vr2">'+v.ref+'</div><div class="vt2">'+v.text+"</div></div>";}).join("")+"</div>":"";var nHtml=ans.note?'<div class="th-note"><div class="th-note-t">✦ مقارنة المذاهب</div><div class="th-note-b">'+ans.note+"</div></div>":"";document.getElementById("ansBody").innerHTML='<div class="at">'+ans.answer+"</div>"+vHtml+nHtml;document.getElementById("ansCard").scrollIntoView({behavior:"smooth",block:"start"});}
+initBookSel();buildSb("all");showDaily();initChips();renderHist();
+</script>
+</body>
+                                                                                    </html>
